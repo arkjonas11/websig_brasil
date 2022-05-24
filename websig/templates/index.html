@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Brazil data</title>
+        <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+        <link href="https://api.mapbox.com/mapbox-gl-js/v2.4.1/mapbox-gl.css" rel="stylesheet">
+        <script src="https://api.mapbox.com/mapbox-gl-js/v2.4.1/mapbox-gl.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <link rel="stylesheet" href="../static/style/styles.css">
+    </head>
+
+    <body>
+				<h1>TEST</h1>
+        <div id="map"></div>
+        <div id="top_bar">Brazil Map
+            <div id="layer_panel">
+                <div id="layer_panel_title">Layers</div>
+                <img id="layer_icon" src="../templates/layers.png" alt="" width="30" height="30">
+                <div id="layer1" onclick="layer_mun()"> Municipalities </div>
+                <div id="layer2" onclick="get_data_schols()"> Schools </div>
+               
+            </div>
+        </div>
+        <div class='map-overlay' id='legend'>Legend</div>
+        <div id="loading" class="lds-dual-ring"></div>
+        <script type="text/javascript" src="../static/js/main.js"></script>
+    </body>
+</html>
