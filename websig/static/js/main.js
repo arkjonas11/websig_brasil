@@ -274,4 +274,11 @@ function display_schols() {
         'layout': {        
         }
         })
-}
+    map.on('click', 'points', (e) => {  
+        new mapboxgl.Popup()
+        .setLngLat(e.lngLat)
+        .setHTML('<h2>' + e.features[0].properties.nome + '</h2><br><h3>' + e.features[0].properties.endereco + '</h3>')
+        .addTo(map);
+    })
+}       
+

@@ -23,7 +23,7 @@ def brazil_polygons(db):
     return geojson
 
 def get_schols(db):
-    response = db.query('SELECT latitude, longitude FROM brasil_escolas')
+    response = db.query('SELECT latitude, longitude, desc_endereco1, no_entidade FROM brasil_escolas')
     geojson = {
         "type": "FeatureCollection",
     	"features": []
@@ -32,11 +32,16 @@ def get_schols(db):
     for val in response:
         feature = {
 	    		"type": "Feature",
+                "properties": {
+                    "nome": val[2],
+                    "endereco": val[3]
+
+                },
                 "geometry":{
                     'type': 'Point',
                     'coordinates': [float(val[1]), float(val[0])]
                 },
-	    		"properties": {}
+	    		
 	    	    }
 
         geojson["features"].append(feature)
