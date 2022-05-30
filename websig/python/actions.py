@@ -47,3 +47,32 @@ def get_schols(db):
         geojson["features"].append(feature)
     
     return geojson
+
+def get_state_data(db):
+    response = db.query(""" SELECT ST_AsGeoJSON(geom), name, predict_no_re, predict_with_re, predict_with_re, cruderate, adjrate, ogc_fid
+                            FROM taxa_ajustada_sexo_idade_ivs 
+                                JOIN (
+                                    SELECT estado, predict_no_re, predict_with_re, cruderate, adjrate 
+                                    FROM states_data) AS tab 
+                                ON estado = name""")
+    geojson = {
+        "type": "FeatureCollection",
+    	"features": []
+    }
+
+    for val in response:
+       feature = {
+	   		"type": "Feature",
+               "id": val[7],
+               "geometry": json.loads(val[0]),
+	   		"properties": {
+                   "name": val[1],
+                   "adjrate": float(val[6].replace(',', '.'))
+                   }
+	   	    }
+
+       geojson["features"].append(feature)
+    
+    return geojson
+
+    

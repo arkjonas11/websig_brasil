@@ -68,12 +68,11 @@ function get_data() {
       return response.json();
     })
     .then(function(data) {
-        document.getElementById('loading').style.display = 'none'
         console.log(data)
+        document.getElementById('loading').style.display = 'none'
         geojson = data
         display()
     })
-
 }
 
 function get_data_schols() {
@@ -84,9 +83,22 @@ function get_data_schols() {
     })
     .then(function(data) {
         document.getElementById('loading').style.display = 'none'
-        console.log(data)
         geojson2 = data
         display_schols()
+    })
+}
+
+function get_state_data() {
+    document.getElementById('loading').style.display = 'inline-block'
+    fetch('get_adjrate')
+    .then(function(response) {
+      return response.json();
+    })
+    .then(function(data) {
+        document.getElementById('loading').style.display = 'none'
+        console.log(data)
+        geojson3 = data
+        display_states_data()
     })
 }
      
@@ -103,7 +115,6 @@ function getColor(d) {
 
 function display() {
     let hoveredStateId = null;
-    
     map.addSource('maine', {
         'type': 'geojson',
         'data': geojson
@@ -282,3 +293,103 @@ function display_schols() {
     })
 }       
 
+function display_states_data() {
+    let hoveredStateId = null;
+    
+    map.addSource('states_data', {
+        'type': 'geojson',
+        'data': geojson3
+        
+    })
+
+    map.addLayer({
+        'id': 'states_data',
+        'source': 'states_data',
+        'type': 'fill',
+        'layout': {
+            'visibility': 'visible'
+        },
+        'paint': {
+            'fill-color': [
+                'interpolate',
+                ['linear'],
+                ["to-number", ["get", "adjrate"]],
+                0,
+                '#0dc26a',
+                0.10,
+                '#EED322',
+                0.12,
+                '#E6B71E',
+                0.14,
+                '#DA9C20',
+                0.16,
+                '#CA8323',
+                0.18,
+                '#B86B25',
+                0.20,
+                '#A25626',
+                0.22,
+                '#8B4225',
+                0.24,
+                '#723122',
+                0.26,
+                '#723122',
+                0.30,
+                '#723122'
+                ],
+                'fill-opacity': [
+                    'case',
+                    ['boolean', ['feature-state', 'hover'], false],
+                    0.5,
+                    1
+                    ]
+                
+        }
+    })
+
+    map.addLayer({
+        'id': 'states_data-line',
+        'source': 'states_data',
+        'type': 'line',
+        'layout': {
+            'visibility': 'visible'
+        },
+        'paint': {
+            'line-color':'#0dc26a',
+            'line-width': 0.5
+        } 
+    })
+
+    map.on('mousemove', 'states_data', (e) => {
+        if (e.features.length > 0) {
+            if (hoveredStateId !== null) {
+                map.setFeatureState(
+                    { source: 'states_data', id: hoveredStateId },
+                    { hover: false }
+                );
+            }
+            hoveredStateId = e.features[0].id;
+            map.setFeatureState(
+                { source: 'states_data', id: hoveredStateId },
+                { hover: true }
+            );
+        }
+    })
+
+    map.on('mouseleave', 'states_data', () => {
+        if (hoveredStateId !== null) {
+            map.setFeatureState(
+                { source: 'states_data', id: hoveredStateId },
+                { hover: false }
+            );
+        }
+        hoveredStateId = null;
+    })
+
+    map.on('click', 'states_data', (e) => {  
+        new mapboxgl.Popup()
+        .setLngLat(e.lngLat)
+        .setHTML('<h2>' + e.features[0].properties.name + '</h2><br><h3></h3>IVS<br><h3>' + e.features[0].properties.adjrate + '</h3>')
+        .addTo(map);
+    })
+}
