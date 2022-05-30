@@ -1,7 +1,8 @@
 var map,
     dist = ["geom","nome","IVS"],
     geojson,
-    geojson2
+    geojson2,
+    geojson3
 
 $(document).ready(initialize);
 function initialize(){
@@ -57,6 +58,41 @@ function layer_mun() {
                 )
             layer1_open = true
             document.getElementById('legend').style.display = 'block'
+        }
+    }
+}
+
+layer2_open = false
+function layer_states() {
+    if (!geojson3) {
+        get_state_data()
+        layer2_open = true
+    
+    }else{
+        if (layer2_open == true){
+            map.setLayoutProperty(
+                'states_data',
+                'visibility',
+                'none'
+                )
+            map.setLayoutProperty(
+                'states_data-line',
+                'visibility',
+                'none'
+                )
+            layer2_open = false
+        }else{
+            map.setLayoutProperty(
+                'states_data',
+                'visibility',
+                'visible'
+                )
+            map.setLayoutProperty(
+                'states_data-line',
+                'visibility',
+                'visible'
+                )
+            layer2_open = true
         }
     }
 }
