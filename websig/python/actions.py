@@ -75,4 +75,26 @@ def get_state_data(db):
     
     return geojson
 
+def get_bars(db):
+    response = db.query("""SELECT ST_AsGeoJSON(geom), state, id
+                            FROM bars_shape""")
+    geojson = {
+        "type": "FeatureCollection",
+    	"features": []
+    }
+
+    for val in response:
+       feature = {
+	   		"type": "Feature",
+               "id": val[2],
+               "geometry": json.loads(val[0]),
+	   		"properties": {
+                   "name": val[1]  
+                   }
+	   	    }
+
+       geojson["features"].append(feature)
+    
+    return geojson
+
     

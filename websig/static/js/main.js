@@ -137,6 +137,20 @@ function get_state_data() {
         display_states_data()
     })
 }
+
+function get_bar_data() {
+    document.getElementById('loading').style.display = 'inline-block'
+    fetch('get_bars')
+    .then(function(response) {
+      return response.json();
+    })
+    .then(function(data) {
+        document.getElementById('loading').style.display = 'none'
+        console.log(data)
+        geojson4 = data
+        display_bar_data()
+    })
+}
      
 function getColor(d) {
     return  d > 0.6 ? '#000080' :
@@ -170,6 +184,7 @@ function display() {
     //            
     //    }
     //});
+
     map.addLayer({
         'id': 'maine',
         'source': 'maine',
@@ -425,7 +440,56 @@ function display_states_data() {
     map.on('click', 'states_data', (e) => {  
         new mapboxgl.Popup()
         .setLngLat(e.lngLat)
-        .setHTML('<h2>' + e.features[0].properties.name + '</h2><br><h3></h3>IVS<br><h3>' + e.features[0].properties.adjrate + '</h3>')
+        .setHTML('<h2>' + e.features[0].properties.name + '</h2><br><h3></h3>Adjrate<br><h3>' + e.features[0].properties.adjrate + '</h3>')
         .addTo(map);
     })
+}
+
+function display_bar_data() {
+    let hoveredStateId = null;
+    
+    map.addSource('bar_data', {
+        'type': 'geojson',
+        'data': geojson4
+        
+    })
+
+    map.addLayer({
+        'id': 'bar_data',
+        'source': 'bar_data',
+        'type': 'fill',
+        'layout': {
+            'visibility': 'visible'
+        },
+        'paint': {
+            'fill-color': '#B86B25',
+            'fill-opacity': [
+                    'case',
+                    ['boolean', ['feature-state', 'hover'], false],
+                    0.5,
+                    1
+                    ]
+                
+        }
+    })
+    map.addLayer({
+        'id': 'bar_extrusion',
+        'type': 'fill-extrusion',
+        'source': 'bar_data',
+        'paint': {
+        // Get the `fill-extrusion-color` from the source `color` property.
+        'fill-extrusion-color': '#B86B25',
+        
+        // Get `fill-extrusion-height` from the source `height` property.
+        'fill-extrusion-height': 1000000,
+        
+        // Get `fill-extrusion-base` from the source `base_height` property.
+        'fill-extrusion-base': 0,
+        
+        // Make extrusions slightly opaque to see through indoor walls.
+        'fill-extrusion-opacity': 1
+        }
+        });
+        
+    
 }

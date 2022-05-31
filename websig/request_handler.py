@@ -24,3 +24,8 @@ def schols():
 @app.route('/get_adjrate')
 def adjrate():
     return jsonify(get_state_data(db))
+
+
+@app.route('/get_bars')
+def bars():
+    return jsonify(get_bars(db))
