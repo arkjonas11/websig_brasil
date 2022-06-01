@@ -391,8 +391,8 @@ function display_states_data() {
                 'fill-opacity': [
                     'case',
                     ['boolean', ['feature-state', 'hover'], false],
-                    0.5,
-                    1
+                    0,
+                    0
                     ]
                 
         }
@@ -406,8 +406,8 @@ function display_states_data() {
             'visibility': 'visible'
         },
         'paint': {
-            'line-color':'#0dc26a',
-            'line-width': 0.5
+            'line-color':'#0a1014',
+            'line-width': 2
         } 
     })
 
@@ -481,7 +481,7 @@ function display_bar_data() {
         'fill-extrusion-color': '#B86B25',
         
         // Get `fill-extrusion-height` from the source `height` property.
-        'fill-extrusion-height': 1000000,
+        'fill-extrusion-height': ['get', 'adjrate'],
         
         // Get `fill-extrusion-base` from the source `base_height` property.
         'fill-extrusion-base': 0,
