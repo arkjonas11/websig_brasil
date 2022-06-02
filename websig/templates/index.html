@@ -8,6 +8,7 @@
         <script src="https://api.mapbox.com/mapbox-gl-js/v2.4.1/mapbox-gl.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
         <link rel="stylesheet" href="../static/style/styles.css">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     </head>
 
     <body>
@@ -16,7 +17,7 @@
         <div id="top_bar">Brazil Map
             <div id="layer_panel">
                 <div id="layer_panel_title">Layers</div>
-                <img id="layer_icon" src="../templates/layers.png" alt="" width="30" height="30">
+                <i class="material-icons" id="menu_icon">menu</i>
                 <div id="layer1" onclick="layer_mun()"> Municipalities </div>
                 <div id="layer2" onclick="get_data_schols()"> Schools </div>
                 <div id="layer3" onclick="layer_states()"> States Data </div>
