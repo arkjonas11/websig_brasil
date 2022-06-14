@@ -199,23 +199,21 @@ function display() {
                 ["to-number", ["get", "IVS"]],
                 0,
                 '#0dc26a',
-                0.1,
+                0.200,
                 '#EED322',
-                0.2,
+                0.201,
                 '#E6B71E',
-                0.3,
+                0.300,
                 '#DA9C20',
-                0.4,
+                0.301,
                 '#CA8323',
-                0.5,
+                0.400,
                 '#B86B25',
-                0.6,
+                0.401,
                 '#A25626',
-                0.7,
+                0.500,
                 '#8B4225',
-                0.8,
-                '#723122',
-                0.9,
+                0.501,
                 '#723122',
                 1,
                 '#723122'
@@ -232,29 +230,19 @@ function display() {
     map.addControl(new mapboxgl.NavigationControl());
 
     const layers = [
-        '0-0.1',
-        '0.1-0.2',
-        '0.2-0.3',
-        '0.3-0.4',
-        '0.4-0.5',
-        '0.5-0.6',
-        '0.6-0.7',
-        '0.7-0.8',
-        '0.8-0.9',
-        '0.9-1',
+        '0-0.200',
+        '0.201-0.300',
+        '0.301-0.400',
+        '0.401-0.500',
+        '0.501-1'
       ]
 
       const colors = [
-        '#0dc26a',    
-        '#EED322',           
-        '#E6B71E',               
-        '#DA9C20',
-        '#CA8323',              
-        '#B86B25',              
-        '#A25626',              
-        '#8B4225',              
-        '#723122',                
-        '#723122',       
+        '#EED322',                       
+        '#DA9C20',       
+        '#B86B25',                  
+        '#8B4225',                              
+        '#723122'     
       ]
 
     layers.forEach((layer, i) => {
@@ -279,7 +267,7 @@ function display() {
             'visibility': 'visible'
         },
         'paint': {
-            'line-color':'#0dc26a',
+            'line-color':'#485465',
             'line-width': 0.5
         } 
     })
@@ -330,8 +318,8 @@ function display_schols() {
         'type': 'circle',
         'source': 'points',
         'paint': {
-            'circle-radius': 4,
-            'circle-color': '#36c513'
+            'circle-radius': 2,
+            'circle-color': '#ec36b6'
             },
         'layout': {        
         }
@@ -477,6 +465,7 @@ function display_bar_data() {
         'type': 'fill-extrusion',
         'source': 'bar_data',
         'paint': {
+            
         // Get the `fill-extrusion-color` from the source `color` property.
         'fill-extrusion-color': '#B86B25',
         
