@@ -198,25 +198,17 @@ function display() {
                 ['linear'],
                 ["to-number", ["get", "IVS"]],
                 0,
-                '#0dc26a',
-                0.200,
-                '#EED322',
-                0.201,
-                '#E6B71E',
+                '#e4d262',
                 0.300,
-                '#DA9C20',
+                '#e4d262',
                 0.301,
-                '#CA8323',
+                '#DA9C20',
                 0.400,
-                '#B86B25',
+                '#DA9C20',
                 0.401,
-                '#A25626',
-                0.500,
-                '#8B4225',
-                0.501,
-                '#723122',
+                '#B86B25',
                 1,
-                '#723122'
+                '#B86B25'
                 ],
                 'fill-opacity': [
                     'case',
@@ -229,12 +221,16 @@ function display() {
     })
     map.addControl(new mapboxgl.NavigationControl());
 
+    const vals = [
+        'Muito baixa/baixa',
+        'Média',
+        'Alta/Muito alta'
+    ]
+
     const layers = [
-        '0-0.200',
-        '0.201-0.300',
-        '0.301-0.400',
-        '0.401-0.500',
-        '0.501-1'
+        '0-0.300',
+        '0.301-0.400 ',
+        '0.401-1'
       ]
 
       const colors = [
@@ -249,11 +245,14 @@ function display() {
         const color = colors[i];
         const item = document.createElement('div');
         const key = document.createElement('span');
+        const vals_tag = document.createElement('span');
         key.className = 'legend-key';
         key.style.backgroundColor = color;
       
-        const value = document.createElement('span');
+            const value = document.createElement('span');
         value.innerHTML = `${layer}`;
+        vals_tag.innerHTML = vals[i] + '<br>'
+        item.appendChild(vals_tag)
         item.appendChild(key);
         item.appendChild(value);
         legend.appendChild(item);
@@ -268,7 +267,7 @@ function display() {
         },
         'paint': {
             'line-color':'#485465',
-            'line-width': 0.5
+            'line-width': 1
         } 
     })
 
