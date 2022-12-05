@@ -18,18 +18,17 @@ class DB:
 
         except Exception as error:
             print('Error connecting to database', error)
-        
+
     def query(self, query):
         try:
             cur = self.conn.cursor()
             cur.execute(query)
             response = cur.fetchall()
             cur.close()
-            
+
             return response
 
         except Exception as error:
             print('Error connecting to database', error)
-            cur.close() 
+            cur.close()
 
-        

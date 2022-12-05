@@ -36,7 +36,7 @@ def get_schols(db):
                     "nome": val[2],
                     "endereco": val[3]
 
-                },
+                },   
                 "geometry":{
                     'type': 'Point',
                     'coordinates': [float(val[1]), float(val[0])]
@@ -76,7 +76,7 @@ def get_state_data(db):
     return geojson
 
 def get_bars(db):
-    response = db.query("""SELECT ST_AsGeoJSON(geom), state, id, adjrate FROM states JOIN (SELECT estado, adjrate FROM states_data) AS tab ON estado = state""")
+    response = db.query("""SELECT ST_AsGeoJSON(geom), state, id, adjrate, quartile FROM states JOIN (SELECT estado, adjrate, quartile FROM states_data) AS tab ON estado = state""")
     geojson = {
         "type": "FeatureCollection",
     	"features": []
@@ -89,6 +89,7 @@ def get_bars(db):
                "geometry": json.loads(val[0]),
 	   		"properties": {
                     "name": val[1],
+                    "quartile": val[4],
                     "adjrate": float(val[3].replace(',', '.'))*10000000
                    }
 	   	    }
@@ -97,4 +98,25 @@ def get_bars(db):
     
     return geojson
 
+def get_bars_emo(db):
+    response = db.query("""SELECT ST_AsGeoJSON(geom), state, id, adjrate, quartile FROM states JOIN (SELECT estado, adjrate, quartile FROM states_data_emo) AS tab ON estado = state""")
+    geojson = {
+        "type": "FeatureCollection",
+    	"features": []
+    }
+
+    for val in response:
+       feature = {
+	   		"type": "Feature",
+               "id": val[2],
+               "geometry": json.loads(val[0]),
+	   		"properties": {
+                    "name": val[1],
+                    "quartile": val[4],
+                    "adjrate": float(val[3].replace(',', '.'))*10000000
+                   }
+	   	    }
+
+       geojson["features"].append(feature)
     
+    return geojson

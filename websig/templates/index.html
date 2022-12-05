@@ -12,21 +12,62 @@
     </head>
 
     <body>
-				<h1>TEST</h1>
         <div id="map"></div>
         <div id="top_bar">Brazil Map
+            <div id="about_button" onclick="open_about_box()">About</div>
             <div id="layer_panel">
                 <div id="layer_panel_title">Layers</div>
-                <i class="material-icons" id="menu_icon">menu</i>
-                <div id="layer1" onclick="layer_mun()"> Municipalities </div>
-                <div id="layer2" onclick="get_data_schols()"> Schools </div>
-                <div id="layer3" onclick="layer_states()"> States Data </div>
-                <div id="layer4" onclick="get_bar_data()"> Bars </div>
+                <div id="layer1" onclick="layer_mun('layer1')"> Municipalities </div>
+                <div id="layer2" onclick="layer_schools('layer2')"> Schools </div>
+                <div id="layer3" onclick="layer_states('layer3')"> States Division </div>
+                <div id="layer4" onclick="layer_bars('layer4')"> Voice Bars </div>
+                <div id="layer5" onclick="layer_emo_bars('layer5')"> EMO Bars </div>
                
             </div>
         </div>
-        <div class='map-overlay' id='legend'>Índice de Vulnerabilidade Social<br><br></div>
+        <div id="about_box">
+            <p id="about_text">
+            Note: 
+            <br><br>
+            Educatel Brazil was a cross-sectional study conducted by telephone interview with the aim of 
+            producing information on health and absenteeism in Brazilian schoolteachers. The following 
+            information is available on the WebSIG: Social Vulnerability Index (SVI) of municipalities 
+            (layer 1) location of schools (layer 2), federative units (FU) (layer 3), absence rates due 
+            to vocal (layer 4) and psychological symptoms (layer 5)
+            The study included 4,979 teachers representing those who worked in the classroom in Brazilian 
+            metropolitan schools in the fourth quarter of 2015 and the first quarter of 2016. The absence 
+            rates due to vocal and psychological symptoms for each FU were adjusted for the variables sex 
+            (male, female) and age (years) of teachers, SVI and working conditions.
+            The following working conditions were analyzed: work journey longer than hours 40 hours 
+            (no, yes), Working time  (<10, 10-20, >20 years), School administration (private, municipal, 
+            state, federal), income at school in minimum wages (>three, until three), working in more 
+            than one school (no, yes), working in another ativivity (no, yes); perception of intense 
+            noise at school (no, yes), student indiscipline (no, yes), communting home-work to and from 
+            (10-20, 21-50, >50 minutes), experience verbal violence in school (no, yes) and physical 
+            violence in school (no, yes), school size by number of teachers (≤10, 11-20, 21-30, >30); 
+            high demand at work (no, yes), rare opportunity to learn new things (no, yes), insufficient 
+            time to complete tasks (no, yes), restriction of autonomy (no, yes) and low social support 
+            (no, yes).
+            <br><br>
+            Adriane Mesquita de Medeiros<sup>1,6</sup>, Mariana Lobo<sup>2</sup>, Marcel de Toledo Vieira<sup>3</sup>, Lia Duarte<sup>4,5</sup>, João 
+            Paulo Monteiro Carvalho<sup>5</sup>, Ana Cláudia Teodoro<sup>4,5</sup>, Rafael Moreira Claro<sup>5</sup>, Nayara Ribeiro Gomes<sup>1</sup>, 
+            Alberto Freitas<sup>2</sup>
+            <br><br>
+            <sup>1</sup> Postgraduate Program in Speech-Language Sciences, Federal University of Minas Gerais, Belo 
+            Horizonte 30130-100, Brazil ; <sup>2</sup> CINTESIS@RISE, MEDCIDS, Faculty of Medicine of the University 
+            of Porto, Porto, Portugal ; <sup>3</sup> Department of Statistics and Graduate Program in Economics Federal 
+            University of Juiz de Fora, Juiz de Fora, 36036-900, Brazil ; <sup>4</sup> Earth Sciences Institute (ICT), 
+            Porto Pole, University of Porto, 4179-007 Porto, Portugal;<sup>5</sup> Department of Geosciences, Environment and Spatial Planning, Faculty of Sciences 
+            University of Porto FCUP, Rua do Campo Alegre, 4169-007 Porto, Portugal  <sup>6</sup> Postgraduate Program in Public Health, 
+            Federal University of Minas Gerais, Belo Horizonte 30130-100, Brazil
+            <br><br>
+            Correspondence: <a href="https://adrianemmedeiros@hotmail.com">adrianemmedeiros@hotmail.com</a>
+            </p>
+        </div>
+        <div class='map-overlay' id='legend'>Social Vulnerability Index<br><br></div>
+        <div class='schools'><div id='legend-key-schools'></div><p id='schools_legend'>Schools</p></div>
         <div id="loading" class="lds-dual-ring"></div>
         <script type="text/javascript" src="../static/js/main.js"></script>
     </body>
 </html>
+º

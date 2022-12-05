@@ -2,15 +2,17 @@ var map,
     dist = ["geom","nome","IVS"],
     geojson,
     geojson2,
-    geojson3
+    geojson3,
+    geojson4,
+    geojson5
 
 $(document).ready(initialize);
 function initialize(){
     mapboxgl.accessToken = 'pk.eyJ1IjoiYXJram9uYXMxMSIsImEiOiJjbDFiNmt0MTQwMGMzM2NxbzA5N2ppcWg3In0.KA7Wzk3q4ZC1TajqXspPAA';
         map = new mapboxgl.Map({
-        container: 'map', 
-        style: 'mapbox://styles/arkjonas11/cktt7y3ki02rh17n84rbtxq0r', 
-        center: [-50.945, -12.826], 
+        container: 'map',
+        style: 'mapbox://styles/arkjonas11/cktt7y3ki02rh17n84rbtxq0r',
+        center: [-50.945, -12.826],
         zoom: 3,
         antialias: true,
         tileLayer: {
@@ -20,17 +22,17 @@ function initialize(){
             noWrap: true
         }
     })
-
-    
+    map.addControl(new mapboxgl.ScaleControl({position: 'bottom-right'}));
 }
 
 layer1_open = false
-function layer_mun() {
+function layer_mun(id) {
     if (!geojson) {
         get_data()
         layer1_open = true
         document.getElementById('legend').style.display = 'block'
-    
+        document.getElementById(id).style.backgroundColor = '#0f3868'
+
     }else{
         if (layer1_open == true){
             map.setLayoutProperty(
@@ -45,6 +47,8 @@ function layer_mun() {
                 )
             layer1_open = false
             document.getElementById('legend').style.display = 'none'
+            document.getElementById(id).style.backgroundColor = '#17222b'
+            
         }else{
             map.setLayoutProperty(
                 'maine',
@@ -58,16 +62,18 @@ function layer_mun() {
                 )
             layer1_open = true
             document.getElementById('legend').style.display = 'block'
+            document.getElementById(id).style.backgroundColor = '#0f3868'
         }
     }
 }
 
 layer2_open = false
-function layer_states() {
+function layer_states(id) {
     if (!geojson3) {
         get_state_data()
         layer2_open = true
-    
+        document.getElementById(id).style.backgroundColor = '#0f3868'
+
     }else{
         if (layer2_open == true){
             map.setLayoutProperty(
@@ -81,6 +87,7 @@ function layer_states() {
                 'none'
                 )
             layer2_open = false
+            document.getElementById(id).style.backgroundColor = '#17222b'
         }else{
             map.setLayoutProperty(
                 'states_data',
@@ -93,6 +100,117 @@ function layer_states() {
                 'visible'
                 )
             layer2_open = true
+            document.getElementById(id).style.backgroundColor = '#0f3868'
+        }
+    }
+}
+
+layer3_open = false
+function layer_schools(id) {
+    if (!geojson2) {
+        get_data_schols()
+        layer3_open = true
+        document.getElementsByClassName('schools')[0].style.display = 'block'
+        document.getElementById(id).style.backgroundColor = '#0f3868'
+
+    }else{
+        if (layer3_open == true){
+            map.setLayoutProperty(
+                'points',
+                'visibility',
+                'none'
+                )
+           
+            layer3_open = false
+            document.getElementsByClassName('schools')[0].style.display = 'none'
+            document.getElementById(id).style.backgroundColor = '#17222b'
+        }else{
+            map.setLayoutProperty(
+                'points',
+                'visibility',
+                'visible'
+                )
+            layer3_open = true
+            document.getElementsByClassName('schools')[0].style.display = 'block'
+            document.getElementById(id).style.backgroundColor = '#0f3868'
+        }
+    }
+}
+
+layer4_open = false
+function layer_bars(id) {
+    if (!geojson4) {
+        get_bar_data()
+        layer4_open = true
+        document.getElementById(id).style.backgroundColor = '#0f3868'
+
+    }else{
+        if (layer4_open == true){
+            map.setLayoutProperty(
+                'bar_data',
+                'visibility',
+                'none'
+                )
+            map.setLayoutProperty(
+                'bar_extrusion',
+                'visibility',
+                'none'
+                )
+           
+            layer4_open = false
+            document.getElementById(id).style.backgroundColor = '#17222b'
+        }else{
+            map.setLayoutProperty(
+                'bar_data',
+                'visibility',
+                'visible'
+                )
+            map.setLayoutProperty(
+                'bar_extrusion',
+                'visibility',
+                'visible'
+                )
+            layer4_open = true
+            document.getElementById(id).style.backgroundColor = '#0f3868'
+        }
+    }
+}
+
+layer5_open = false
+function layer_emo_bars(id) {
+    if (!geojson5) {
+        get_bar_data_emo()
+        layer5_open = true
+        document.getElementById(id).style.backgroundColor = '#0f3868'
+
+    }else{
+        if (layer5_open == true){
+            map.setLayoutProperty(
+                'bar_data_emo',
+                'visibility',
+                'none'
+                )
+            map.setLayoutProperty(
+                'bar_extrusion_emo',
+                'visibility',
+                'none'
+                )
+           
+            layer5_open = false
+            document.getElementById(id).style.backgroundColor = '#17222b'
+        }else{
+            map.setLayoutProperty(
+                'bar_data_emo',
+                'visibility',
+                'visible'
+                )
+            map.setLayoutProperty(
+                'bar_extrusion_emo',
+                'visibility',
+                'visible'
+                )
+            layer5_open = true
+            document.getElementById(id).style.backgroundColor = '#0f3868'
         }
     }
 }
@@ -151,7 +269,21 @@ function get_bar_data() {
         display_bar_data()
     })
 }
-     
+
+function get_bar_data_emo() {
+    document.getElementById('loading').style.display = 'inline-block'
+    fetch('get_bars_emo')
+    .then(function(response) {
+      return response.json();
+    })
+    .then(function(data) {
+        document.getElementById('loading').style.display = 'none'
+        console.log(data)
+        geojson5 = data
+        display_bar_data_emo()
+    })
+}
+
 function getColor(d) {
     return  d > 0.6 ? '#000080' :
             d > 0.5 ? '#6fdc6f' :
@@ -168,22 +300,8 @@ function display() {
     map.addSource('maine', {
         'type': 'geojson',
         'data': geojson
-        
-    })
 
-    //map.addLayer({
-    //    'id': 'maine',
-    //    'source': 'maine',
-    //    'type': 'fill-extrusion',
-    //    'layout': {},
-    //    'paint': {
-    //        'fill-extrusion-color': '#6fdc6f',
-    //        'fill-extrusion-height': 1000000,
-    //        'fill-extrusion-base': 0,
-    //        'fill-extrusion-opacity': 1
-    //            
-    //    }
-    //});
+    })
 
     map.addLayer({
         'id': 'maine',
@@ -216,15 +334,15 @@ function display() {
                     0.5,
                     1
                     ]
-                
+
         }
     })
     map.addControl(new mapboxgl.NavigationControl());
 
     const vals = [
-        'Muito baixa/baixa',
-        'Média',
-        'Alta/Muito alta'
+        'Very low/low',
+        'Medium',
+        'High/Very high'
     ]
 
     const layers = [
@@ -234,11 +352,11 @@ function display() {
       ]
 
       const colors = [
-        '#EED322',                       
-        '#DA9C20',       
-        '#B86B25',                  
-        '#8B4225',                              
-        '#723122'     
+        '#EED322',
+        '#DA9C20',
+        '#B86B25',
+        '#8B4225',
+        '#723122'
       ]
 
     layers.forEach((layer, i) => {
@@ -248,7 +366,7 @@ function display() {
         const vals_tag = document.createElement('span');
         key.className = 'legend-key';
         key.style.backgroundColor = color;
-      
+
             const value = document.createElement('span');
         value.innerHTML = `${layer}`;
         vals_tag.innerHTML = vals[i] + '<br>'
@@ -257,7 +375,7 @@ function display() {
         item.appendChild(value);
         legend.appendChild(item);
       })
-      
+
     map.addLayer({
         'id': 'maine-line',
         'source': 'maine',
@@ -268,7 +386,7 @@ function display() {
         'paint': {
             'line-color':'#485465',
             'line-width': 1
-        } 
+        }
     })
 
     map.on('mousemove', 'maine', (e) => {
@@ -297,19 +415,18 @@ function display() {
         hoveredStateId = null;
     })
 
-    map.on('click', 'maine', (e) => {  
+    map.on('click', 'maine', (e) => {
         new mapboxgl.Popup()
         .setLngLat(e.lngLat)
         .setHTML('<h2>' + e.features[0].properties.nome + '</h2><br><h3></h3>IVS<br><h3>' + e.features[0].properties.IVS + '</h3>')
         .addTo(map);
     })
-}       
+}
 
 function display_schols() {
     map.addSource('points', {
         'type': 'geojson',
         'data': geojson2
-        
     })
 
     map.addLayer({
@@ -317,27 +434,26 @@ function display_schols() {
         'type': 'circle',
         'source': 'points',
         'paint': {
-            'circle-radius': 2,
-            'circle-color': '#ec36b6'
+            'circle-radius': 3.2,
+            'circle-color': '#26e300'
             },
-        'layout': {        
+        'layout': {
         }
         })
-    map.on('click', 'points', (e) => {  
+    map.on('click', 'points', (e) => {
         new mapboxgl.Popup()
         .setLngLat(e.lngLat)
         .setHTML('<h2>' + e.features[0].properties.nome + '</h2><br><h3>' + e.features[0].properties.endereco + '</h3>')
         .addTo(map);
     })
-}       
+}
 
 function display_states_data() {
     let hoveredStateId = null;
-    
+
     map.addSource('states_data', {
         'type': 'geojson',
         'data': geojson3
-        
     })
 
     map.addLayer({
@@ -374,14 +490,14 @@ function display_states_data() {
                 '#723122',
                 0.30,
                 '#723122'
-                ],
-                'fill-opacity': [
-                    'case',
-                    ['boolean', ['feature-state', 'hover'], false],
-                    0,
-                    0
-                    ]
-                
+            ],
+            'fill-opacity': [
+                'case',
+                ['boolean', ['feature-state', 'hover'], false],
+                0,
+                0
+            ]
+
         }
     })
 
@@ -395,7 +511,7 @@ function display_states_data() {
         'paint': {
             'line-color':'#0a1014',
             'line-width': 2
-        } 
+        }
     })
 
     map.on('mousemove', 'states_data', (e) => {
@@ -424,7 +540,7 @@ function display_states_data() {
         hoveredStateId = null;
     })
 
-    map.on('click', 'states_data', (e) => {  
+    map.on('click', 'states_data', (e) => {
         new mapboxgl.Popup()
         .setLngLat(e.lngLat)
         .setHTML('<h2>' + e.features[0].properties.name + '</h2><br><h3></h3>Adjrate<br><h3>' + e.features[0].properties.adjrate + '</h3>')
@@ -434,11 +550,10 @@ function display_states_data() {
 
 function display_bar_data() {
     let hoveredStateId = null;
-    
+
     map.addSource('bar_data', {
         'type': 'geojson',
         'data': geojson4
-        
     })
 
     map.addLayer({
@@ -456,7 +571,6 @@ function display_bar_data() {
                     0.5,
                     1
                     ]
-                
         }
     })
     map.addLayer({
@@ -464,20 +578,78 @@ function display_bar_data() {
         'type': 'fill-extrusion',
         'source': 'bar_data',
         'paint': {
-            
-        // Get the `fill-extrusion-color` from the source `color` property.
         'fill-extrusion-color': '#B86B25',
-        
-        // Get `fill-extrusion-height` from the source `height` property.
+
         'fill-extrusion-height': ['get', 'adjrate'],
-        
-        // Get `fill-extrusion-base` from the source `base_height` property.
+
         'fill-extrusion-base': 0,
-        
-        // Make extrusions slightly opaque to see through indoor walls.
+
         'fill-extrusion-opacity': 1
         }
-        });
-        
-    
+        })
+
+    map.on('click', 'bar_extrusion', (e) => {
+        new mapboxgl.Popup()
+        .setLngLat(e.lngLat)
+        .setHTML('<p>' + e.features[0].properties.quartile + '<br>' + e.features[0].properties.name + '</p>')
+        .addTo(map);
+    })
+}
+
+
+function display_bar_data_emo() {
+    let hoveredStateId = null;
+
+    map.addSource('bar_data_emo', {
+        'type': 'geojson',
+        'data': geojson5
+    })
+
+    map.addLayer({
+        'id': 'bar_data_emo',
+        'source': 'bar_data_emo',
+        'type': 'fill',
+        'layout': {
+            'visibility': 'visible'
+        },
+        'paint': {
+            'fill-color': '#8800ff',
+            'fill-opacity': [
+                    'case',
+                    ['boolean', ['feature-state', 'hover'], false],
+                    0.5,
+                    1
+                    ]
+        }
+    })
+
+    map.addLayer({
+        'id': 'bar_extrusion_emo',
+        'type': 'fill-extrusion',
+        'source': 'bar_data_emo',
+        'paint': {
+        'fill-extrusion-color': '#2f64d6',
+
+        'fill-extrusion-height': ['get', 'adjrate'],
+
+        'fill-extrusion-base': 0,
+
+        'fill-extrusion-opacity': 1
+        }
+        })
+
+    map.on('click', 'bar_extrusion_emo', (e) => {
+        new mapboxgl.Popup()
+        .setLngLat(e.lngLat)
+        .setHTML('<p>' + e.features[0].properties.quartile + '<br>' + e.features[0].properties.name + '</p>')
+        .addTo(map);
+    })
+}
+
+function open_about_box() {
+    if (document.getElementById("about_box").style.display == 'block') {
+        document.getElementById("about_box").style.display = 'none'
+    } else {
+        document.getElementById("about_box").style.display = 'block'
+    }
 }
